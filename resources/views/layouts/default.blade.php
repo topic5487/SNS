@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>@yield('title', 'SNS') -- Laravel 新手入门教程</title>
-    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="/SNS/public/css/app.css">
   </head>
   <body>
     @include('layouts._header')
