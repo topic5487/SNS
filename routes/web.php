@@ -19,7 +19,8 @@ Route::get('/about','StaticPagesController@about')->name('about');
 
 Route::get('signup', 'UserController@create')->name('signup');
 
-//Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('users', 'UserController');
+
+Route::get('login', 'SessionController@create')->name('login');
+Route::post('login', 'SessionController@store')->name('login');
+Route::delete('logout', 'SessionController@destroy')->name('logout');
