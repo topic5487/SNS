@@ -68,7 +68,8 @@ class UserController extends Controller
     }
 
     public function index(){
-        $users = User::all();
+        //分頁，一頁顯示六筆用戶
+        $users = User::paginate(6);
         return view('users.index', compact('users'));
     }
 }
