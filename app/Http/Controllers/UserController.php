@@ -62,8 +62,13 @@ class UserController extends Controller
     public function __construct(){
         //未登入用戶將導向登錄頁面，防止未登入修改資料
         $this->middleware('auth', [
-            'except' => ['show', 'create', 'store']
+            'except' => ['show', 'create', 'store','index']
         ]);
 
+    }
+
+    public function index(){
+        $users = User::all();
+        return view('users.index', compact('users'));
     }
 }
