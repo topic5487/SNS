@@ -35,11 +35,13 @@ class UserController extends Controller
     }
 
     public function edit(User $user){
+        $this->authorize('update', $user);
         return view('users.edit', compact('user'));
     }
 
     public function update(User $user, Request $request){
         //先驗證
+        $this->authorize('update', $user);
         $this->validate($request, [
             'name' => ['required', Rule::unique('users')->ignore($user), 'max:50'],
             'password' => 'nullable|confirmed|min:6'
@@ -55,5 +57,13 @@ class UserController extends Controller
 
         session()->flash('success', '資料更新成功');
         return redirect()->route('users.show', $user->id);
+    }
+
+    public function __construct(){
+        //未登入用戶將導向登錄頁面，防止未登入修改資料
+        $this->middleware('auth', [
+            'except' => ['show', 'create', 'store']
+        ]);
+
     }
 }
