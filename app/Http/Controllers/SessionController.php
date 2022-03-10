@@ -19,10 +19,17 @@ class SessionController extends Controller
         ]);
 
         if (Auth::attempt($credentials, $request->has('remember'))) {
+            if(Auth::user()->activated) {
             //登入成功後操作
             session()->flash('success', 'Welcome Back!');
             $fallback = route('users.show', Auth::user());
             return redirect()->intended($fallback);
+        } else {
+            //帳號未開通提示
+            Auth::logout();
+            session()->flash('warning', '帳號未開通，請檢查信箱中的註冊信件進行開通');
+            return redirect('/');
+        }
         } else {
             //登入失敗後操作
             session()->flash('danger', '信箱或密碼錯誤');

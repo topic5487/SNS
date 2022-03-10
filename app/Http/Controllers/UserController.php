@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -29,9 +31,9 @@ class UserController extends Controller
         'password' => bcrypt($request->password),
     ]);
 
-    session()->flash('success', '歡迎您的註冊');
-
-    return redirect()->route('users.show', [$user]);
+    $this->sendEmailConfirmationTo($user);
+    session()->flash('success', '驗證信件已寄至註冊郵箱，請前往開通');
+    return redirect('/');
     }
 
     public function edit(User $user){
@@ -60,9 +62,8 @@ class UserController extends Controller
     }
 
     public function __construct(){
-        //未登入用戶將導向登錄頁面，防止未登入修改資料
         $this->middleware('auth', [
-            'except' => ['show', 'create', 'store','index']
+            'except' => ['show', 'create', 'store','index','confirmEmail']
         ]);
 
     }
@@ -78,5 +79,29 @@ class UserController extends Controller
         $user->delete();
         session()->flash('success', '刪除用戶成功');
         return back();
+    }
+
+    protected function sendEmailConfirmationTo($user){
+        $view = 'emails.confirm';
+        $data = compact('user');
+        $from = 'hank@example.com';
+        $name = 'Hank';
+        $to = $user->email;
+        $subject = "感謝註冊！請確認您的信箱";
+        Mail::send($view, $data, function ($message) use($from, $name, $to, $subject) {
+            $message->from($from, $name)->to($to)->subject($subject);
+        });
+    }
+
+    public function confirmEmail($token){
+        $user = User::where('activation_token', $token)->firstOrFail();//firstOrFail取出第一個用戶
+        //查到用戶後，把此用戶開通狀態改為true，activation_token設為空
+        $user->activated = true;
+        $user->activation_token = null;
+        $user->save();
+        //最後進行登入、提示、跳轉頁面
+        Auth::login($user);
+        session()->flash('success', '開通成功');
+        return redirect()->route('users.show', [$user]);
     }
 }
