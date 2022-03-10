@@ -12,7 +12,7 @@ use Carbon\Carbon;
 
 class PasswordController extends Controller
 {
-    public function showLinkRequestForm(){
+    public function showLinkRequestForm (){
         return view('auth.passwords.email');
     }
 
@@ -44,6 +44,57 @@ class PasswordController extends Controller
             $message->to($email)->subject("忘記密碼");
         });
         session()->flash('success', '重置密碼信件已寄出');
+        return redirect()->back();
+    }
+
+    public function showResetForm(Request $request){
+        $token = $request->route()->parameter('token');
+        return view('auth.passwords.reset', compact('token'));
+    }
+
+    public function reset(Request $request){
+        //驗證
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|confirmed|min:8',
+        ]);
+        $email = $request->email;
+        $token = $request->token;
+        // 重置密碼網址的有效時間
+        $expires = 60 * 10;
+
+        //取得對應的用戶
+        $user = User::where("email", $email)->first();
+
+        //如不存在
+        if (is_null($user)) {
+            session()->flash('danger', '信箱錯誤');
+            return redirect()->back()->withInput();
+        }
+
+        //讀取重置紀錄
+        $record = (array) DB::table('password_resets')->where('email', $email)->first();
+
+        //紀錄存在的話
+        if ($record) {
+            //先檢查網址是否過期
+            if (Carbon::parse($record['created_at'])->addSeconds($expires)->isPast()) {
+                session()->flash('danger', '網址已過期');
+                return redirect()->back();
+            }
+            //檢查token是否正確
+            if ( ! Hash::check($token, $record['token'])) {
+                session()->flash('danger', '錯誤');
+                return redirect()->back();
+            }
+            //如一切正確 更新用戶密碼
+            $user->update(['password' => bcrypt($request->password)]);
+            session()->flash('success', '密碼重置成功');
+            return redirect()->route('login');
+        }
+        //如紀錄不存在
+        session()->flash('danger', '錯誤');
         return redirect()->back();
     }
 }
