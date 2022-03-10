@@ -66,6 +66,11 @@ class UserController extends Controller
             'except' => ['show', 'create', 'store','index','confirmEmail']
         ]);
 
+        //限制註冊請求頻率
+        $this->middleware('throttle:10,60', [
+            'only' => ['store']
+        ]);
+
     }
 
     public function index(){
