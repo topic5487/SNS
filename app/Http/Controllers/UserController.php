@@ -15,7 +15,12 @@ class UserController extends Controller
     }
 
     public function show(User $user){
-        return view('users.show', compact('user'));
+        $statuses = $user->statuses()
+        //對文章進行排序
+        ->orderBy('created_at', 'desc')
+        //每頁顯示十則
+        ->paginate(10);
+        return view('users.show', compact('user', 'statuses'));
     }
 
     public function store(Request $request){
@@ -107,4 +112,6 @@ class UserController extends Controller
         session()->flash('success', '開通成功');
         return redirect()->route('users.show', [$user]);
     }
+
+
 }

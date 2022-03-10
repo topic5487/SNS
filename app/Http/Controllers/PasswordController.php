@@ -41,7 +41,7 @@ class PasswordController extends Controller
 
         //將Token 網址寄給用戶
         Mail::send('emails.reset_link', compact('token'), function ($message) use ($email) {
-            $message->to($email)->subject("忘記密碼");
+            $message->to($email)->subject("請盡速重置您的密碼");
         });
         session()->flash('success', '重置密碼信件已寄出');
         return redirect()->back();
@@ -102,7 +102,7 @@ class PasswordController extends Controller
         //針對重置密碼表單做限制訪問頻率
         $this->middleware('throttle:2,1', [
             'only' => ['showLinkRequestForm']
-            ]);
+        ]);
 
         //針對發送密碼重置信做頻率限制
         $this->middleware('throttle:4,10', [
