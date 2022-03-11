@@ -19,4 +19,8 @@ class UserPolicy
         return $currentUser->is_admin && $currentUser->id !== $user->id;
     }
 
+    public function follow(User $currentUser, User $user){
+        //自己無法追蹤自己
+        return $currentUser->id !== $user->id;
+    }
 }

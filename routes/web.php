@@ -38,3 +38,8 @@ Route::resource('statuses', 'StatusesController', ['only' => ['store', 'destroy'
 //追蹤者列表 粉絲列表路由
 Route::get('/users/{user}/followings', 'UserController@followings')->name('users.followings');
 Route::get('/users/{user}/followers', 'UserController@followers')->name('users.followers');
+
+//追蹤用戶
+Route::post('/users/followers/{user}', 'FollowersController@store')->name('followers.store');
+//取消追蹤
+Route::delete('/users/followers/{user}', 'FollowersController@destroy')->name('followers.destroy');
