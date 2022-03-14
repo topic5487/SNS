@@ -57,20 +57,25 @@ class User extends Authenticatable
     }
 
     public function statuses(){
+        //一個用戶擁有多篇文章
         return $this->hasMany(Status::class);
     }
 
     public function feed(){
-        return $this->statuses()->orderBy('created_at', 'desc');
+        $user_ids = $this->followings->pluck('id')->toArray();
+        array_push($user_ids, $this->id);
+        return Status::whereIn('user_id', $user_ids)
+             ->with('user')
+             ->orderBy('created_at', 'desc');
     }
 
     //關聯表名為followers
     public function followers(){
-        return $this->belongsToMany(User::class, 'followers', 'user_id', 'follower_id');
+        return $this->belongsToMany('App\Models\User', 'followers', 'user_id', 'follower_id');
     }
 
     public function followings(){
-        return $this->belongsToMany(User::class, 'followers', 'follower_id', 'user_id');
+        return $this->belongsToMany('App\Models\User', 'followers', 'follower_id', 'user_id');
     }
 
     public function follow($user_ids){

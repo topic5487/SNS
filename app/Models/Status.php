@@ -12,6 +12,7 @@ class Status extends Model
     protected $fillable = ['content'];
 
     public function user(){
+        //一篇文章屬於一個用戶
         return $this->belongsTo(User::class);
     }
 }

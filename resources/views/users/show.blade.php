@@ -18,7 +18,7 @@
     </section>
     <section class="status">
       {{--使用count()判斷是否有動態--}}
-      @if ($statuses->count() > 0)
+      @if (count($statuses) > 0)
         <ul class="list-unstyled">
           @foreach ($statuses as $status)
             @include('statuses._status')

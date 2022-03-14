@@ -7,6 +7,7 @@
     {{ $status->content }}
   </div>
 
+  {{--刪除文章按鈕--}}
   @can('destroy', $status)
     <form action="{{ route('statuses.destroy', $status->id) }}" method="POST" onsubmit="return confirm('確定刪除嗎?');">
       {{ csrf_field() }}

@@ -43,11 +43,10 @@ class SessionController extends Controller
     }
 
     public function __construct(){
-        //只讓未登入用戶訪問註冊頁面
         $this->middleware('auth', [
             'except' => ['show', 'create', 'store']
         ]);
-
+        //只讓未登入用戶訪問註冊頁面
         $this->middleware('guest', [
             'only' => ['create']
             ]);

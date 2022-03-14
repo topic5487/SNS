@@ -36,6 +36,10 @@
 
           <button type="submit" class="btn btn-primary">註冊</button>
       </form>
+
+      <hr>
+
+      <p>已經有帳號？<a href="{{ route('login') }}">前往登入</a></p>
     </div>
   </div>
 </div>
