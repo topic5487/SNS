@@ -31,4 +31,21 @@ class StatusesController extends Controller
         session()->flash('success', '刪除成功');
         return redirect()->back();
     }
+
+    public function edit($id){
+        $status_id = Auth::user()->statuses()->find($id);
+        return view('statuses.edit', ['status' => $status_id]);
+    }
+
+    public function update(Request $request, $id){
+        $status_id = Auth::user()->statuses()->find($id);
+        //驗證更新文章內容
+        $content = $request -> validate([
+            'content' => 'required|max:140'
+        ]);
+
+        $status_id->update($content);
+        session()->flash('success', '編輯成功');
+        return redirect()->route('home');
+    }
 }

@@ -19,4 +19,9 @@ class StatusPolicy
     {   //當前用戶ID和文章作者ID相同才能刪除文章
         return $user->id === $status->user_id;
     }
+
+    public function edit(User $user, Status $status)
+    {   //當前用戶ID和文章作者ID相同才能編輯文章
+        return $user->id === $status->user_id;
+    }
 }

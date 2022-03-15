@@ -13,10 +13,9 @@
           <a class="dropdown-item" href="{{ route('users.show', Auth::user()) }}">個人中心</a>
           <a class="dropdown-item" href="{{ route('users.edit', Auth::user()) }}">編輯資料</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" id="logout" href="#">
-            <form action="{{ route('logout') }}" method="POST">
+          <a class="dropdown-item" id="logout" href="#" >
+            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('確定要登出嗎?');">
               {{ csrf_field() }}
-              {{--HTML表單不支援發送DELETE請求，使用method_field假冒--}}
               {{ method_field('DELETE') }}
               <button class="btn btn-block btn-danger" type="submit" name="button">登出</button>
             </form>

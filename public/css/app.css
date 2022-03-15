@@ -11325,6 +11325,7 @@ section.user_info h1, section.user_info .h1 {
 
 /* Status */
 .status-delete-btn {
+  margin: 2px;
   width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;

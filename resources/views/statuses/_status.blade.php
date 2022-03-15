@@ -14,5 +14,10 @@
       {{ method_field('DELETE') }}
       <button type="submit" class="btn btn-sm btn-danger status-delete-btn">刪除</button>
     </form>
+
+  @endcan
+
+  @can('edit', $status)
+  <form><a class="btn btn-sm btn-danger status-delete-btn" href="{{ route('statuses.edit', $status->id) }}">編輯</a></form>
   @endcan
 </li>

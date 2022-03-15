@@ -23,13 +23,7 @@
     </div>
   @else
     <div class="bg-light p-3 p-sm-5 rounded">
-      <h1>主頁</h1>
-      <p class="lead">
-        你現在看到的是 <a href="https://learnku.com/courses/laravel-essential-training"></a>。
-      </p>
-      <p>
-        一切，將從這裡開始。
-      </p>
+      <h1>註冊後使用SNS</h1>
       <p>
         <a class="btn btn-lg btn-success" href="{{ route('signup') }}" role="button">現在註冊</a>
       </p>

@@ -33,7 +33,7 @@ Route::post('password/email',  'PasswordController@sendResetLinkEmail')->name('p
 Route::get('password/reset/{token}', 'PasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset',  'PasswordController@reset')->name('password.update');
 
-Route::resource('statuses', 'StatusesController', ['only' => ['store', 'destroy']]);
+Route::resource('statuses', 'StatusesController', ['only' => ['store', 'destroy', 'edit', 'update']]);
 
 //追蹤者列表 粉絲列表路由
 Route::get('/users/{user}/followings', 'UserController@followings')->name('users.followings');

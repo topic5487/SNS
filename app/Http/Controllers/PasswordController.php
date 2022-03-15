@@ -100,12 +100,12 @@ class PasswordController extends Controller
 
     public function __construct(){
         //針對重置密碼表單做限制訪問頻率
-        $this->middleware('throttle:2,1', [
+        $this->middleware('throttle:20,10', [
             'only' => ['showLinkRequestForm']
         ]);
 
         //針對發送密碼重置信做頻率限制
-        $this->middleware('throttle:4,10', [
+        $this->middleware('throttle:20,10', [
             'only' => ['sendResetLinkEmail']
         ]);
     }
