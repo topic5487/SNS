@@ -35,3 +35,18 @@
 3. MySQL 管理資料庫
 4. Bootstrap 樣板 
 5. middleware做明確的權限劃分
+
+網站主頁 可發佈文章和觀看追蹤用戶文章
+![](https://github.com/topic5487/SNS/blob/main/images/sns.jpg)
+
+個人主頁 可看見粉絲和追蹤中人數 以及該用戶所有文章
+![](https://github.com/topic5487/SNS/blob/main/images/sns1.jpg)
+
+用戶列表 如身分是管理員則可刪除用戶
+![](https://github.com/topic5487/SNS/blob/main/images/sns2.jpg)
+
+編輯個人資料(信箱無法變更)
+![](https://github.com/topic5487/SNS/blob/main/images/sns3.jpg)
+
+其他用戶頁面 可追蹤或取消追蹤
+![](https://github.com/topic5487/SNS/blob/main/images/sns4.jpg)
