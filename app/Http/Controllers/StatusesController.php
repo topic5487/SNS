@@ -48,4 +48,12 @@ class StatusesController extends Controller
         session()->flash('success', '編輯成功');
         return redirect()->route('home');
     }
+
+    public function search(Request $request){
+        $search = $request->input('search');
+
+        $statuses = Status::where('content', 'like', "%{$search}%")->with('user')->paginate(5);
+        $title = '搜尋關鍵字：' . $search ;
+        return view('statuses.show_search', compact('statuses', 'title'));
+    }
 }

@@ -1,9 +1,17 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container ">
+  <div class="container">
     <a class="navbar-brand" href="{{ route('home') }}">SNS</a>
     <ul class="navbar-nav justify-content-end">
       {{--判斷當前用戶是否已登錄--}}
       @if (Auth::check())
+      <div class="input-group ">
+        <form action="{{ route('status.search') }}" method="GET">
+          <input class=" form-control-sm" type="text" name="search" placeholder="Search" required />
+          <span>
+            <button class="btn btn-outline-secondary btn-sm" type="submit">Search</button>
+          </span>
+        </form>
+      </div>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           {{ Auth::user()->name }}
